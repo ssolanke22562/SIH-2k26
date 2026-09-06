@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { translations } from '../i18n';
+import { translations, competencyTranslations } from '../i18n';
 import { API_BASE } from '../config';
 
 export default function SmeReviewUI({ lang, activeUser }) {
@@ -63,8 +63,8 @@ export default function SmeReviewUI({ lang, activeUser }) {
 
   const selectItemForReview = (item) => {
     setActiveItem(item);
-    setEditStem(item.stem);
-    setEditExplanation(item.explanation);
+    setEditStem(isHi && item.stem_hi ? item.stem_hi : item.stem);
+    setEditExplanation(isHi && item.explanation_hi ? item.explanation_hi : item.explanation);
   };
 
   const handleApprove = async () => {
@@ -127,6 +127,14 @@ export default function SmeReviewUI({ lang, activeUser }) {
     }
   };
 
+  const getCompetencyName = (code, name) => {
+    if (isHi && code) {
+      const matchKey = Object.keys(competencyTranslations).find(k => code.toLowerCase().includes(k.replace('comp_', '')));
+      if (matchKey) return competencyTranslations[matchKey].hi;
+    }
+    return name || code;
+  };
+
   return (
     <div className="space-y-6">
       {/* Header Banner */}
@@ -143,7 +151,7 @@ export default function SmeReviewUI({ lang, activeUser }) {
               activeTab === 'queue' ? 'bg-[#1F2937] text-white shadow-sm' : 'text-[#94A3B8]'
             }`}
           >
-            Pending Review ({queue.length})
+            {t.pendingQueue} ({queue.length})
           </button>
           <button
             onClick={() => {
@@ -154,29 +162,29 @@ export default function SmeReviewUI({ lang, activeUser }) {
               activeTab === 'bank' ? 'bg-[#1F2937] text-white shadow-sm' : 'text-[#94A3B8]'
             }`}
           >
-            Approved Bank
+            {t.approvedBankTab}
           </button>
         </div>
       </div>
 
-      {/* KPI Stats: High-Contrast Flat Cards */}
+      {/* KPI Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="data-card p-4">
           <div className="text-xs text-[#94A3B8] uppercase">{t.pendingQueue}</div>
           <div className="text-2xl font-bold text-amber-400 mt-1 font-mono">{stats?.pending_review || queue.length}</div>
-          <div className="text-[11px] text-[#64748B] mt-0.5">Awaiting verification</div>
+          <div className="text-[11px] text-[#64748B] mt-0.5">{t.awaitingVerification}</div>
         </div>
 
         <div className="data-card p-4">
           <div className="text-xs text-[#94A3B8] uppercase">{t.acceptanceRate}</div>
           <div className="text-2xl font-bold text-emerald-400 mt-1 font-mono">{stats?.acceptance_rate_pct || 84.2}%</div>
-          <div className="text-[11px] text-[#64748B] mt-0.5">Approved questions</div>
+          <div className="text-[11px] text-[#64748B] mt-0.5">{t.approvedQuestions}</div>
         </div>
 
         <div className="data-card p-4">
           <div className="text-xs text-[#94A3B8] uppercase">{t.avgReviewTime}</div>
           <div className="text-2xl font-bold text-white mt-1 font-mono">{stats?.avg_review_time_sec || 38}s</div>
-          <div className="text-[11px] text-[#64748B] mt-0.5">Average time per review</div>
+          <div className="text-[11px] text-[#64748B] mt-0.5">{t.avgTimePerReview}</div>
         </div>
       </div>
 
@@ -185,16 +193,16 @@ export default function SmeReviewUI({ lang, activeUser }) {
         <>
           {queue.length === 0 ? (
             <div className="data-card p-10 text-center text-xs text-[#94A3B8]">
-              No questions waiting for review.
+              {t.noQuestionsWaiting}
             </div>
           ) : activeItem && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Left Column: Question Editor (Clean flat forms, generous spacing) */}
+              {/* Left Column: Question Editor */}
               <div className="lg:col-span-7 data-card p-5 space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-[#1E293B]">
                   <div className="flex items-center gap-2">
                     <span className="badge badge-accent">
-                      {activeItem.competency_name || activeItem.competency_code}
+                      {getCompetencyName(activeItem.competency_code, activeItem.competency_name)}
                     </span>
                     <span className="badge badge-default">
                       {activeItem.difficulty_level}
@@ -224,6 +232,7 @@ export default function SmeReviewUI({ lang, activeUser }) {
                   <div className="space-y-1.5">
                     {(activeItem.options || []).map((opt) => {
                       const isCorrect = opt.id === activeItem.correct_option_index;
+                      const optText = isHi && opt.text_hi ? opt.text_hi : opt.text;
                       return (
                         <div
                           key={opt.id}
@@ -237,11 +246,11 @@ export default function SmeReviewUI({ lang, activeUser }) {
                             }`}>
                               {String.fromCharCode(65 + opt.id)}
                             </span>
-                            <span>{opt.text}</span>
+                            <span>{optText}</span>
                           </div>
                           {isCorrect && (
                             <span className="badge badge-success text-[10px]">
-                              Correct
+                              {t.correctOption}
                             </span>
                           )}
                         </div>
@@ -252,7 +261,7 @@ export default function SmeReviewUI({ lang, activeUser }) {
 
                 <div>
                   <label className="text-xs font-semibold text-[#94A3B8] block mb-1">
-                    Explanation
+                    {t.explanationLabel}
                   </label>
                   <textarea
                     rows={2}
@@ -286,7 +295,7 @@ export default function SmeReviewUI({ lang, activeUser }) {
                     {t.sourceCitation}
                   </h3>
                   <span className="badge badge-accent text-[11px] font-mono">
-                    Match: {Math.round(activeItem.confidence_score * 100)}%
+                    {t.confidenceBadge}: {Math.round(activeItem.confidence_score * 100)}%
                   </span>
                 </div>
 
@@ -299,7 +308,7 @@ export default function SmeReviewUI({ lang, activeUser }) {
                 <div className="p-3.5 rounded bg-[#0F172A] border border-[#1E293B] text-xs space-y-2.5">
                   <div className="flex items-center justify-between text-[#94A3B8] border-b border-[#1E293B] pb-1.5">
                     <span className="font-semibold text-white">{activeItem.document_title || 'NSS 78th Round Manual'}</span>
-                    <span className="text-[11px]">Page {activeItem.citation_page || 14}</span>
+                    <span className="text-[11px]">{t.pageRef} {activeItem.citation_page || 14}</span>
                   </div>
 
                   <div className="font-mono text-[11px] text-amber-300 leading-relaxed bg-[#0B0F19] p-3 rounded border border-[#1E293B]">
@@ -307,31 +316,34 @@ export default function SmeReviewUI({ lang, activeUser }) {
                   </div>
 
                   <div className="text-[11px] text-[#64748B]">
-                    Verified against official MoSPI reference text.
+                    {t.verifiedAgainstManual}
                   </div>
                 </div>
 
                 <div>
                   <div className="text-[11px] font-semibold text-[#94A3B8] uppercase mb-1.5">
-                    Other Items ({queue.length})
+                    {t.otherItemsTitle} ({queue.length})
                   </div>
                   <div className="space-y-1 max-h-[160px] overflow-y-auto">
-                    {queue.map((q) => (
-                      <button
-                        key={q.id}
-                        onClick={() => selectItemForReview(q)}
-                        className={`w-full text-left p-2 rounded text-xs border truncate flex items-center justify-between gap-2 ${
-                          activeItem.id === q.id
-                            ? 'bg-[#1F2937] border-[#334155] text-white'
-                            : 'bg-[#0F172A] border-[#1E293B] text-[#94A3B8] hover:text-white'
-                        }`}
-                      >
-                        <span className="truncate">{q.stem}</span>
-                        <span className="font-mono text-[10px] text-[#64748B] shrink-0">
-                          {Math.round(q.confidence_score * 100)}%
-                        </span>
-                      </button>
-                    ))}
+                    {queue.map((q) => {
+                      const qText = isHi && q.stem_hi ? q.stem_hi : q.stem;
+                      return (
+                        <button
+                          key={q.id}
+                          onClick={() => selectItemForReview(q)}
+                          className={`w-full text-left p-2 rounded text-xs border truncate flex items-center justify-between gap-2 ${
+                            activeItem.id === q.id
+                              ? 'bg-[#1F2937] border-[#334155] text-white'
+                              : 'bg-[#0F172A] border-[#1E293B] text-[#94A3B8] hover:text-white'
+                          }`}
+                        >
+                          <span className="truncate">{qText}</span>
+                          <span className="font-mono text-[10px] text-[#64748B] shrink-0">
+                            {Math.round(q.confidence_score * 100)}%
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -345,21 +357,24 @@ export default function SmeReviewUI({ lang, activeUser }) {
         <div className="data-card p-5 space-y-3">
           <div className="flex items-center justify-between pb-2 border-b border-[#1E293B]">
             <h3 className="text-xs font-semibold text-[#94A3B8] uppercase">
-              Approved Questions ({bankQuestions.length})
+              {t.approvedBankTab} ({bankQuestions.length})
             </h3>
-            <span className="badge badge-success text-[10px]">Active in Test Pool</span>
+            <span className="badge badge-success text-[10px]">{t.activeInTestPool}</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {bankQuestions.map((q) => (
-              <div key={q.id} className="p-3 rounded bg-[#0F172A] border border-[#1E293B] space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="badge badge-accent text-[10px]">{q.competency_name}</span>
-                  <span className="text-[10px] text-[#64748B] font-mono">Diff: {q.irt_b_difficulty}</span>
+            {bankQuestions.map((q) => {
+              const qText = isHi && q.stem_hi ? q.stem_hi : q.stem;
+              return (
+                <div key={q.id} className="p-3 rounded bg-[#0F172A] border border-[#1E293B] space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="badge badge-accent text-[10px]">{getCompetencyName(q.competency_code, q.competency_name)}</span>
+                    <span className="text-[10px] text-[#64748B] font-mono">{t.difficultyParam}: {q.irt_b_difficulty}</span>
+                  </div>
+                  <div className="text-xs text-white leading-relaxed">{qText}</div>
                 </div>
-                <div className="text-xs text-white leading-relaxed">{q.stem}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

@@ -15,6 +15,7 @@ export const translations = {
     retestBtn: "Retake Test",
     submitting: "Submitting...",
     questionOf: "Question",
+    of: "of",
     discriminationParam: "Discrimination",
     difficultyParam: "Difficulty",
     yourAbility: "Ability Score (θ)",
@@ -27,6 +28,8 @@ export const translations = {
     overallProficiency: "Average Score",
     targetBenchmark: "Role Target",
     gapDetected: "Gap",
+    scoreLabel: "Score",
+    targetLabel: "Target",
     proficientStatus: "Meets Target",
     moderateGap: "Needs Review",
     criticalGap: "Needs Training",
@@ -39,6 +42,18 @@ export const translations = {
     estimatedHours: "hrs",
     mandatoryPriority: "Required",
     recommendedPriority: "Suggested",
+    employeeIdLabel: "Employee ID",
+    divisionLabel: "Division",
+    stateLabel: "State",
+    correctMsg: "Correct",
+    incorrectMsg: "Incorrect",
+    radarTitle: "Competency Radar",
+    yourScoreLegend: "Your Score",
+    roleTargetLegend: "Role Target",
+    gapSummaryTitle: "Skill Gap Breakdown",
+    providerLabel: "Provider",
+    levelLabel: "Level",
+    gapAddressedLabel: "Gap Addressed",
 
     // Coordinator Console
     coordinatorTitle: "Training Coordinator Overview",
@@ -59,6 +74,12 @@ export const translations = {
     docSelectLabel: "Manual",
     compSelectLabel: "Competency Topic",
     generatingNotice: "Extracting text and generating questions...",
+    officersInDivision: "Officers in division",
+    completedDiagnostics: "Completed diagnostic tests",
+    divisionCompletionRate: "Division completion rate",
+    incompleteCount: "Incomplete",
+    sentToReviewQueue: "Sent to Review Queue for citation verification.",
+    trainingAssignedAlert: "Training assigned to officer.",
 
     // SME Reviewer
     smeTitle: "Question Review Queue",
@@ -75,6 +96,15 @@ export const translations = {
     editBtn: "Save Changes & Approve",
     rejectBtn: "Reject Question",
     mandatoryAuditNotice: "Low source match score. Verify text carefully.",
+    awaitingVerification: "Awaiting verification",
+    approvedQuestions: "Approved questions",
+    avgTimePerReview: "Average time per review",
+    noQuestionsWaiting: "No questions waiting for review.",
+    approvedBankTab: "Approved Bank",
+    activeInTestPool: "Active in Test Pool",
+    verifiedAgainstManual: "Verified against official MoSPI reference text.",
+    otherItemsTitle: "Other Items",
+    explanationLabel: "Explanation",
 
     // MoSPI HQ Admin
     adminTitle: "MoSPI National Training Dashboard",
@@ -82,9 +112,19 @@ export const translations = {
     nationalReadiness: "National Average Score",
     trainingSavings: "Estimated Cost Savings",
     authoringEfficiency: "Question Authoring Time Saved",
+    avgScoreGainTitle: "Average Score Gain",
+    postCourseImprovement: "Post-course improvement",
+    officersTestedLabel: "Officers Tested",
+    vsStaticTraining: "Vs static training sessions",
+    viaQuestionGen: "Via question generation",
     stateHeatmapTitle: "State Readiness Overview",
     cadreMatrixTitle: "Cadre Competency Matrix",
     exportReportBtn: "Export Report (JSON)",
+    allStatesFilter: "All States",
+    highReadinessFilter: "High Readiness",
+    needsFocusFilter: "Needs Focus",
+    totalStrengthLabel: "Total Strength",
+    testedCountLabel: "Tested",
     langToggle: "हिन्दी"
   },
   hi: {
@@ -103,6 +143,7 @@ export const translations = {
     retestBtn: "पुनः परीक्षण दें",
     submitting: "जमा हो रहा है...",
     questionOf: "प्रश्न",
+    of: "में से",
     discriminationParam: "विभेदीकरण",
     difficultyParam: "कठिनाई",
     yourAbility: "क्षमता स्तर (θ)",
@@ -115,6 +156,8 @@ export const translations = {
     overallProficiency: "औसत अंक",
     targetBenchmark: "संवर्ग लक्ष्य",
     gapDetected: "अंतर",
+    scoreLabel: "अंक",
+    targetLabel: "लक्ष्य",
     proficientStatus: "लक्ष्य पूरा",
     moderateGap: "समीक्षा आवश्यक",
     criticalGap: "प्रशिक्षण आवश्यक",
@@ -127,6 +170,18 @@ export const translations = {
     estimatedHours: "घंटे",
     mandatoryPriority: "अनिवार्य",
     recommendedPriority: "अनुशंसित",
+    employeeIdLabel: "कर्मचारी आईडी",
+    divisionLabel: "प्रभाग",
+    stateLabel: "राज्य",
+    correctMsg: "सही उत्तर",
+    incorrectMsg: "गलत उत्तर",
+    radarTitle: "योग्यता रडार",
+    yourScoreLegend: "आपका स्कोर",
+    roleTargetLegend: "संवर्ग लक्ष्य",
+    gapSummaryTitle: "कौशल अंतर विवरण",
+    providerLabel: "प्रदाता",
+    levelLabel: "स्तर",
+    gapAddressedLabel: "कवर किया गया अंतर",
 
     // Coordinator Console
     coordinatorTitle: "प्रशिक्षण समन्वयक अवलोकन",
@@ -147,6 +202,12 @@ export const translations = {
     docSelectLabel: "नियमावली",
     compSelectLabel: "योग्यता विषय",
     generatingNotice: "प्रश्न तैयार किए जा रहे हैं...",
+    officersInDivision: "प्रभाग में कुल अधिकारी",
+    completedDiagnostics: "पूर्ण किए गए नैदानिक परीक्षण",
+    divisionCompletionRate: "प्रभाग पूर्णता दर",
+    incompleteCount: "अपूर्ण",
+    sentToReviewQueue: "समीक्षा कतार में संदर्भ सत्यापन हेतु भेजा गया।",
+    trainingAssignedAlert: "अधिकारी को प्रशिक्षण सफलतापूर्वक सौंपा गया।",
 
     // SME Reviewer
     smeTitle: "प्रश्न समीक्षा कतार",
@@ -163,6 +224,15 @@ export const translations = {
     editBtn: "सहेजें और स्वीकृत करें",
     rejectBtn: "अस्वीकार करें",
     mandatoryAuditNotice: "कम मिलान स्कोर। कृपया संदर्भ की सावधानीपूर्वक जांच करें।",
+    awaitingVerification: "सत्यापन हेतु प्रतीक्षारत",
+    approvedQuestions: "स्वीकृत प्रश्न",
+    avgTimePerReview: "प्रति समीक्षा औसत समय",
+    noQuestionsWaiting: "समीक्षा के लिए कोई प्रश्न लंबित नहीं है।",
+    approvedBankTab: "स्वीकृत बैंक",
+    activeInTestPool: "परीक्षण पूल में सक्रिय",
+    verifiedAgainstManual: "आधिकारिक MoSPI संदर्भ नियमावली द्वारा सत्यापित।",
+    otherItemsTitle: "अन्य प्रश्न",
+    explanationLabel: "व्याख्या",
 
     // MoSPI HQ Admin
     adminTitle: "MoSPI राष्ट्रीय प्रशिक्षण डैशबोर्ड",
@@ -170,9 +240,66 @@ export const translations = {
     nationalReadiness: "राष्ट्रीय औसत अंक",
     trainingSavings: "अनुमानित लागत बचत",
     authoringEfficiency: "बचाया गया समय",
+    avgScoreGainTitle: "औसत अंक सुधार",
+    postCourseImprovement: "पाठ्यक्रम पश्चात सुधार",
+    officersTestedLabel: "परीक्षित अधिकारी",
+    vsStaticTraining: "कक्षा प्रशिक्षण की तुलना में",
+    viaQuestionGen: "स्वचालित प्रश्न निर्माण द्वारा",
     stateHeatmapTitle: "राज्य-वार स्थिति",
     cadreMatrixTitle: "संवर्ग योग्यता विवरण",
     exportReportBtn: "रिपोर्ट डाउनलोड करें (JSON)",
+    allStatesFilter: "सभी राज्य",
+    highReadinessFilter: "उत्कृष्ट स्थिति",
+    needsFocusFilter: "सुधार आवश्यक",
+    totalStrengthLabel: "कुल संख्या",
+    testedCountLabel: "परीक्षित",
     langToggle: "English"
   }
+};
+
+export const competencyTranslations = {
+  comp_sampling: {
+    en: "Sampling Theory & Multi-Stage Stratification",
+    hi: "प्रतिचयन सिद्धांत एवं बहु-चरणीय स्तरीकरण"
+  },
+  comp_plfs: {
+    en: "PLFS Protocols & Activity Status Classification",
+    hi: "पीएलएफएस प्रोटोकॉल एवं गतिविधि स्थिति वर्गीकरण"
+  },
+  comp_index: {
+    en: "Price Index Compilation (CPI / WPI / IIP)",
+    hi: "मूल्य सूचकांक संकलन (सीपीआई / डब्ल्यूपीआई)"
+  },
+  comp_asi: {
+    en: "Annual Survey of Industries & Industrial Classification",
+    hi: "उद्योगों का वार्षिक सर्वेक्षण (एएसआई)"
+  },
+  comp_natacc: {
+    en: "National Accounts & Gross State Domestic Product",
+    hi: "राष्ट्रीय लेखा एवं राज्य घरेलू उत्पाद (जीएसडीपी)"
+  }
+};
+
+export const cadreTranslations = {
+  "Junior Statistical Officer": "कनिष्ठ सांख्यिकी अधिकारी",
+  "Senior Statistical Officer": "वरिष्ठ सांख्यिकी अधिकारी",
+  "Director / Senior Statistician": "निदेशक / वरिष्ठ सांख्यिकीविद्",
+  "Training Coordinator": "प्रशिक्षण समन्वयक",
+  "Senior Statistical Advisor": "वरिष्ठ सांख्यिकी सलाहकार",
+  "Director General (MoSPI)": "महानिदेशक (MoSPI)"
+};
+
+export const stateTranslations = {
+  "Maharashtra": "महाराष्ट्र",
+  "Delhi (HQ/NSSO)": "दिल्ली (मुख्यालय/एनएसएसओ)",
+  "Karnataka": "कर्नाटक",
+  "Tamil Nadu": "तमिलनाडु",
+  "Uttar Pradesh": "उत्तर प्रदेश",
+  "Gujarat": "गुजरात",
+  "West Bengal": "पश्चिम बंगाल",
+  "Rajasthan": "राजस्थान",
+  "Andhra Pradesh": "आंध्र प्रदेश",
+  "Madhya Pradesh": "मध्य प्रदेश",
+  "Kerala": "केरल",
+  "Bihar": "बिहार"
 };

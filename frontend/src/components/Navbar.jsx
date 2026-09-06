@@ -16,7 +16,7 @@ export default function Navbar({ activeRole, setActiveRole, lang, setLang, activ
     <header className="sticky top-0 z-50 nav-glass px-4 lg:px-8 py-3 mb-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Left: Ministry Branding */}
-        <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+        <div className="flex items-center gap-3">
           <div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-white text-base">
@@ -30,15 +30,6 @@ export default function Navbar({ activeRole, setActiveRole, lang, setLang, activ
               {t.portalSubtitle}
             </p>
           </div>
-
-          {/* Mobile Lang Button */}
-          <button
-            onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-            className="md:hidden btn-secondary text-xs py-1 px-2.5"
-          >
-            <Globe className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t.langToggle}</span>
-          </button>
         </div>
 
         {/* Center: 4-Role Switcher */}
@@ -61,14 +52,15 @@ export default function Navbar({ activeRole, setActiveRole, lang, setLang, activ
           })}
         </nav>
 
-        {/* Right: Language Switcher */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* Right: Exactly ONE Single Language Switcher */}
+        <div className="flex items-center">
           <button
             onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
             className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5"
+            aria-label="Toggle language between English and Hindi"
           >
             <Globe className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t.langToggle}</span>
+            <span className="font-semibold">{t.langToggle}</span>
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RadarChart from './RadarChart';
-import { translations } from '../i18n';
+import { translations, cadreTranslations, competencyTranslations } from '../i18n';
 import { API_BASE } from '../config';
 
 export default function LearnerPortal({ lang, activeUser }) {
@@ -151,17 +151,31 @@ export default function LearnerPortal({ lang, activeUser }) {
     }
   };
 
+  const getCompetencyName = (comp) => {
+    if (!comp) return '';
+    if (isHi) {
+      if (comp.id && competencyTranslations[comp.id]) return competencyTranslations[comp.id].hi;
+      if (comp.code) {
+        const matchKey = Object.keys(competencyTranslations).find(k => comp.code.toLowerCase().includes(k.replace('comp_', '')));
+        if (matchKey) return competencyTranslations[matchKey].hi;
+      }
+    }
+    return comp.name || comp.competency_name || comp.code;
+  };
+
+  const cadreLabel = isHi && cadreTranslations[activeUser.cadre] ? cadreTranslations[activeUser.cadre] : activeUser.cadre;
+
   return (
     <div className="space-y-6">
-      {/* Hero Banner: Light translucent accent */}
+      {/* Hero Banner */}
       <div className="hero-soft p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-white">{activeUser.full_name}</h2>
-            <span className="badge badge-accent">{activeUser.cadre}</span>
+            <span className="badge badge-accent">{cadreLabel}</span>
           </div>
           <p className="text-xs text-[#94A3B8] mt-1">
-            Employee ID: {activeUser.official_id} • Division: {activeUser.division_id} (State: {activeUser.state_code})
+            {t.employeeIdLabel}: {activeUser.official_id} • {t.divisionLabel}: {activeUser.division_id} ({t.stateLabel}: {activeUser.state_code})
           </p>
         </div>
 
@@ -172,17 +186,17 @@ export default function LearnerPortal({ lang, activeUser }) {
         )}
       </div>
 
-      {/* ADAPTIVE TEST RUNNER: High contrast data card */}
+      {/* ADAPTIVE TEST RUNNER */}
       {testState === 'RUNNING' && currentItem && (
         <div className="data-card p-6 border-amber-500/40 space-y-5">
           {/* Question Telemetry Header */}
           <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#1E293B] text-xs">
             <div className="flex items-center gap-2">
               <span className="badge badge-default">
-                {t.questionOf} {(currentItem.items_completed || 0) + 1} of {currentItem.total_target_items || 5}
+                {t.questionOf} {(currentItem.items_completed || 0) + 1} {t.of} {currentItem.total_target_items || 5}
               </span>
               <span className="badge badge-accent">
-                {currentItem.competency_name || currentItem.competency_code}
+                {getCompetencyName(currentItem)}
               </span>
             </div>
 
@@ -232,8 +246,8 @@ export default function LearnerPortal({ lang, activeUser }) {
               itemResult.is_correct ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-300' : 'bg-rose-950/20 border-rose-500/40 text-rose-300'
             }`}>
               <div className="flex items-center justify-between font-semibold">
-                <span>{itemResult.is_correct ? (isHi ? 'सही उत्तर' : 'Correct') : (isHi ? 'गलत उत्तर' : 'Incorrect')}</span>
-                <span className="text-xs text-[#94A3B8] font-mono">Ability θ: {itemResult.theta_after}</span>
+                <span>{itemResult.is_correct ? t.correctMsg : t.incorrectMsg}</span>
+                <span className="text-xs text-[#94A3B8] font-mono">{t.yourAbility}: {itemResult.theta_after}</span>
               </div>
 
               <p className="text-xs text-[#E2E8F0] leading-relaxed">
@@ -243,7 +257,7 @@ export default function LearnerPortal({ lang, activeUser }) {
               {itemResult.citation_text && (
                 <div className="p-3 bg-[#0B0F19] border border-[#1E293B] rounded text-[11px] text-amber-300 font-mono">
                   <div className="text-[10px] text-[#64748B] uppercase mb-0.5">
-                    {t.sourceProvenance} (Page {itemResult.citation_page || 1})
+                    {t.sourceProvenance} ({t.pageRef} {itemResult.citation_page || 1})
                   </div>
                   "{itemResult.citation_text}"
                 </div>
@@ -273,7 +287,7 @@ export default function LearnerPortal({ lang, activeUser }) {
         </div>
       )}
 
-      {/* DASHBOARD VIEWS: High contrast data cards per WCAG 2.1 AA */}
+      {/* DASHBOARD VIEWS */}
       {testState !== 'RUNNING' && report && (
         <div className="space-y-6">
           {/* Tabs */}
@@ -310,14 +324,14 @@ export default function LearnerPortal({ lang, activeUser }) {
               <div className="lg:col-span-5 data-card p-5 flex flex-col items-center justify-center">
                 <div className="w-full flex items-center justify-between mb-2">
                   <span className="text-xs font-semibold text-[#94A3B8] uppercase">
-                    Competency Radar
+                    {t.radarTitle}
                   </span>
                   <span className="badge badge-success">
-                    {report.overall_readiness}
+                    {report.overall_readiness === 'HIGH_READINESS' ? (isHi ? 'उच्च तत्परता' : 'High Readiness') : (isHi ? 'विकासशील' : 'Developing')}
                   </span>
                 </div>
 
-                <RadarChart competencies={report.competency_breakdown || []} size={280} />
+                <RadarChart competencies={report.competency_breakdown || []} size={280} lang={lang} />
 
                 <div className="w-full mt-4 pt-3 border-t border-[#1E293B] flex items-center justify-between text-xs">
                   <span className="text-[#94A3B8]">{t.overallProficiency}:</span>
@@ -330,7 +344,7 @@ export default function LearnerPortal({ lang, activeUser }) {
               {/* Table Card */}
               <div className="lg:col-span-7 data-card p-5 space-y-3">
                 <h3 className="text-xs font-semibold text-[#94A3B8] uppercase">
-                  Skill Gap Breakdown
+                  {t.gapSummaryTitle}
                 </h3>
 
                 <div className="space-y-2">
@@ -340,7 +354,7 @@ export default function LearnerPortal({ lang, activeUser }) {
                       <div key={comp.code} className="p-3 rounded bg-[#0F172A] border border-[#1E293B] space-y-2">
                         <div className="flex items-center justify-between gap-2">
                           <div>
-                            <div className="font-semibold text-xs text-white">{comp.name}</div>
+                            <div className="font-semibold text-xs text-white">{getCompetencyName(comp)}</div>
                             <div className="text-[11px] text-[#64748B] font-mono">{comp.code}</div>
                           </div>
                           <span className={`badge ${badgeClass} text-[10px]`}>
@@ -350,9 +364,9 @@ export default function LearnerPortal({ lang, activeUser }) {
 
                         <div className="space-y-1">
                           <div className="flex justify-between text-[11px] text-[#94A3B8] font-mono">
-                            <span>Score: <strong className="text-white">{comp.assessed_score}</strong></span>
-                            <span>Target: <strong className="text-[#94A3B8]">{comp.target_score}</strong></span>
-                            <span>Gap: <strong className={comp.gap > 0 ? "text-rose-400" : "text-emerald-400"}>-{comp.gap}</strong></span>
+                            <span>{t.scoreLabel}: <strong className="text-white">{comp.assessed_score}</strong></span>
+                            <span>{t.targetLabel}: <strong className="text-[#94A3B8]">{comp.target_score}</strong></span>
+                            <span>{t.gapDetected}: <strong className={comp.gap > 0 ? "text-rose-400" : "text-emerald-400"}>-{comp.gap}</strong></span>
                           </div>
                           <div className="h-1.5 w-full bg-[#1E293B] rounded-full overflow-hidden">
                             <div
@@ -400,11 +414,11 @@ export default function LearnerPortal({ lang, activeUser }) {
                           {isHi && course.course_name_hi ? course.course_name_hi : course.course_name}
                         </h4>
                         <p className="text-[11px] text-[#64748B] mt-0.5">
-                          {course.provider} • {course.difficulty_level}
+                          {t.providerLabel}: {course.provider} • {t.levelLabel}: {course.difficulty_level}
                         </p>
 
                         <div className="mt-2 text-[11px] text-[#94A3B8] font-mono">
-                          Gap: <span className="text-rose-400 font-bold">-{course.gap_addressed} pts</span>
+                          {t.gapAddressedLabel}: <span className="text-rose-400 font-bold">-{course.gap_addressed} pts</span>
                         </div>
                       </div>
 

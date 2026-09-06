@@ -1,7 +1,11 @@
 import React from 'react';
+import { translations, competencyTranslations } from '../i18n';
 
-export default function RadarChart({ competencies = [], size = 300 }) {
+export default function RadarChart({ competencies = [], size = 300, lang = 'en' }) {
   if (!competencies || competencies.length === 0) return null;
+
+  const t = translations[lang] || translations.en;
+  const isHi = lang === 'hi';
 
   const center = size / 2;
   const radius = size * 0.36;
@@ -77,7 +81,7 @@ export default function RadarChart({ competencies = [], size = 300 }) {
           strokeDasharray="4 4"
         />
 
-        {/* Assessed Score Polygon (Solid Amber outline + subtle fill) */}
+        {/* Assessed Score Polygon */}
         <polygon
           points={assessedPoints}
           fill="rgba(245, 158, 11, 0.15)"
@@ -97,13 +101,24 @@ export default function RadarChart({ competencies = [], size = 300 }) {
           );
         })}
 
-        {/* Axis Labels */}
+        {/* Axis Labels (Translated into Hindi when active) */}
         {competencies.map((c, i) => {
           const angle = indexToAngle(i, total);
           const labelDist = radius + 22;
           const x = center + labelDist * Math.cos(angle);
           const y = center + labelDist * Math.sin(angle);
-          const shortName = c.name ? c.name.split('&')[0].trim() : c.code;
+
+          // Get translated short name
+          let compName = c.name;
+          if (c.id && competencyTranslations[c.id]) {
+            compName = isHi ? competencyTranslations[c.id].hi : competencyTranslations[c.id].en;
+          } else if (c.code) {
+            const matchKey = Object.keys(competencyTranslations).find(k => c.code.toLowerCase().includes(k.replace('comp_', '')));
+            if (matchKey && isHi) {
+              compName = competencyTranslations[matchKey].hi;
+            }
+          }
+          const shortName = isHi ? compName.split(' ')[0] : compName.split('&')[0].trim();
 
           return (
             <text
@@ -122,15 +137,15 @@ export default function RadarChart({ competencies = [], size = 300 }) {
         })}
       </svg>
 
-      {/* Legend */}
+      {/* Legend with full i18n support */}
       <div className="flex items-center gap-5 mt-4 text-xs">
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
-          <span className="text-[#94A3B8]">Your Score</span>
+          <span className="text-[#94A3B8]">{t.yourScoreLegend}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-1 border-b-2 border-dashed border-gray-400 inline-block"></span>
-          <span className="text-[#94A3B8]">Role Target</span>
+          <span className="text-[#94A3B8]">{t.roleTargetLegend}</span>
         </div>
       </div>
     </div>
