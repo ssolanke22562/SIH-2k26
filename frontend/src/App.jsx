@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import LandingHome from './components/LandingHome';
+import JudgeModeDemo from './components/JudgeModeDemo';
 import LearnerPortal from './components/LearnerPortal';
+import AiExplainabilityView from './components/AiExplainabilityView';
 import CoordinatorConsole from './components/CoordinatorConsole';
 import SmeReviewUI from './components/SmeReviewUI';
 import MoSpiAdminDashboard from './components/MoSpiAdminDashboard';
+import SystemArchitectureView from './components/SystemArchitectureView';
+import SecurityPrivacyView from './components/SecurityPrivacyView';
+import ScaleImpactView from './components/ScaleImpactView';
 import { API_BASE } from './config';
 
 export default function App() {
-  const [activeRole, setActiveRole] = useState('LEARNER');
+  const [activeTab, setActiveTab] = useState('OVERVIEW');
   const [lang, setLang] = useState('en');
   const [users, setUsers] = useState([]);
   const [activeUser, setActiveUser] = useState({
@@ -24,15 +30,6 @@ export default function App() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    if (users && users.length > 0) {
-      const match = users.find((u) => u.role === activeRole);
-      if (match) {
-        setActiveUser(match);
-      }
-    }
-  }, [activeRole, users]);
-
   const fetchUsers = async () => {
     try {
       const res = await fetch(`${API_BASE}/auth/users`);
@@ -48,28 +45,61 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0B0F19] text-[#F8FAFC] pb-16">
       <Navbar
-        activeRole={activeRole}
-        setActiveRole={setActiveRole}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
         lang={lang}
         setLang={setLang}
         activeUser={activeUser}
       />
 
       <main className="max-w-7xl mx-auto px-4 lg:px-8">
-        {activeRole === 'LEARNER' && (
+        {activeTab === 'OVERVIEW' && (
+          <LandingHome
+            lang={lang}
+            onStartDemo={() => setActiveTab('JUDGE_MODE')}
+            onExploreArchitecture={() => setActiveTab('ARCHITECTURE')}
+            onNavigateTab={(tab) => setActiveTab(tab)}
+          />
+        )}
+
+        {activeTab === 'JUDGE_MODE' && (
+          <JudgeModeDemo
+            lang={lang}
+            onExploreArchitecture={() => setActiveTab('ARCHITECTURE')}
+            onExploreAi={() => setActiveTab('AI_INSIGHTS')}
+          />
+        )}
+
+        {activeTab === 'LEARNER' && (
           <LearnerPortal lang={lang} activeUser={activeUser} />
         )}
 
-        {activeRole === 'COORDINATOR' && (
+        {activeTab === 'AI_INSIGHTS' && (
+          <AiExplainabilityView lang={lang} />
+        )}
+
+        {activeTab === 'COORDINATOR' && (
           <CoordinatorConsole lang={lang} activeUser={activeUser} />
         )}
 
-        {activeRole === 'SME_REVIEWER' && (
+        {activeTab === 'SME_REVIEWER' && (
           <SmeReviewUI lang={lang} activeUser={activeUser} />
         )}
 
-        {activeRole === 'MOSPI_ADMIN' && (
+        {activeTab === 'MOSPI_ADMIN' && (
           <MoSpiAdminDashboard lang={lang} />
+        )}
+
+        {activeTab === 'ARCHITECTURE' && (
+          <SystemArchitectureView lang={lang} />
+        )}
+
+        {activeTab === 'SECURITY' && (
+          <SecurityPrivacyView lang={lang} />
+        )}
+
+        {activeTab === 'SCALE' && (
+          <ScaleImpactView lang={lang} />
         )}
       </main>
     </div>
