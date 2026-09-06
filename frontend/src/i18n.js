@@ -1,7 +1,7 @@
 export const translations = {
   en: {
-    portalTitle: "MoSPI Training & Assessment Portal",
-    portalSubtitle: "Ministry of Statistics and Programme Implementation",
+    portalTitle: "SĀNKHYIKI SAMARTH",
+    portalSubtitle: "MoSPI AI-Enabled Adaptive Learning & Assessment Platform",
     problemStatement: "SIH 2026 • Problem ID SIH26101",
     tabOverview: "Overview",
     tabJudgeMode: "Judge Mode (Live Demo)",
@@ -138,8 +138,8 @@ export const translations = {
     langToggle: "हिन्दी"
   },
   hi: {
-    portalTitle: "MoSPI प्रशिक्षण एवं मूल्यांकन पोर्टल",
-    portalSubtitle: "सांख्यिकी और कार्यक्रम कार्यान्वयन मंत्रालय",
+    portalTitle: "सांख्यिकी समर्थ",
+    portalSubtitle: "MoSPI AI-सक्षम अनुकूली शिक्षण एवं मूल्यांकन मंच",
     problemStatement: "SIH 2026 • समस्या ID SIH26101",
     tabOverview: "अवलोकन (होम)",
     tabJudgeMode: "जज मोड (लाइव डेमो)",

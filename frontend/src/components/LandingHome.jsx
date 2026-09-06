@@ -1,4 +1,6 @@
 import React from 'react';
+import { Sparkles, ArrowRight, ShieldCheck, Activity, Award, CheckCircle2 } from 'lucide-react';
+import MoSpiLogo from './MoSpiLogo';
 import { translations } from '../i18n';
 
 export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, onNavigateTab }) {
@@ -7,38 +9,79 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* 1. Hero Value Proposition Banner */}
-      <div className="hero-soft p-8 lg:p-10 border border-[#1E293B]">
-        <div className="max-w-4xl space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="badge badge-accent text-xs">
-              Smart India Hackathon 2026 • SIH26101
-            </span>
-            <span className="badge badge-default text-xs">
-              Ministry of Statistics and Programme Implementation (MoSPI)
-            </span>
+      {/* 1. Hero Value Proposition Banner with Prominent Logo */}
+      <div className="hero-soft p-8 lg:p-10 border border-[#1E293B] relative overflow-hidden">
+        {/* Subtle Background Radial Glow */}
+        <div className="absolute -right-20 -top-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative z-10">
+          <div className="max-w-3xl space-y-4">
+            {/* Top Badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="badge badge-accent text-xs font-semibold animate-glow">
+                Smart India Hackathon 2026 • Problem ID SIH26101
+              </span>
+              <span className="badge badge-default text-xs">
+                Ministry of Statistics & Programme Implementation (MoSPI)
+              </span>
+              <span className="badge badge-success text-xs">
+                iGOT Karmayogi Aligned
+              </span>
+            </div>
+
+            {/* Brand Title */}
+            <div>
+              <div className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">
+                {isHi ? "राष्ट्रीय आधिकारिक सांख्यिकी क्षमता निर्माण प्रणाली" : "National Statistical Capacity-Building Intelligence"}
+              </div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                {isHi 
+                  ? "सांख्यिकी समर्थ: मूल्यांकन डेटा से व्यक्तिगत शिक्षण बुद्धिमत्ता तक" 
+                  : "Sānkhyiki Samarth: From Assessment Data to Personalized Learning Intelligence"}
+              </h1>
+            </div>
+
+            {/* Subtitle Description */}
+            <p className="text-sm sm:text-base text-[#94A3B8] leading-relaxed max-w-2xl">
+              {isHi
+                ? "यह मंच सांख्यिकी अधिकारियों के कौशल की 2PL IRT मॉडल द्वारा निरंतर जांच करता है, दक्षता अंतराल की पहचान करता है, परीक्षण कठिनाई को स्वचालित रूप से समायोजित करता है और iGOT कर्मयोगी पाठ्यक्रमों की सटीक सिफारिश करता है।"
+                : "A national-scale psychometric and RAG platform that continuously assesses statistical officers, diagnoses competency gaps with Item Response Theory (IRT), dynamically adjusts assessment difficulty, and generates verifiable training pathways aligned with iGOT Karmayogi."}
+            </p>
+
+            {/* Action Buttons with Micro-Interactions */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <button 
+                onClick={onStartDemo} 
+                className="btn-accent text-sm py-3 px-6 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 hover:scale-[1.02] transition-all flex items-center gap-2"
+              >
+                <Sparkles className="w-4 h-4 text-black animate-pulse" />
+                <span>{isHi ? "लाइव जज डेमो शुरू करें (2-3 मिनट)" : "Start Live Judge Demo (2-3 Min)"}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={onExploreArchitecture} 
+                className="btn-secondary text-sm py-3 px-6 hover:border-amber-500/50 hover:scale-[1.02] transition-all"
+              >
+                <span>{isHi ? "तकनीकी वास्तुकला देखें" : "Explore Technical Architecture"}</span>
+              </button>
+            </div>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
-            {isHi 
-              ? "मूल्यांकन डेटा से व्यक्तिगत शिक्षण बुद्धिमत्ता तक" 
-              : "From Assessment Data to Personalized Learning Intelligence"}
-          </h1>
-
-          <p className="text-sm sm:text-base text-[#94A3B8] leading-relaxed max-w-3xl">
-            {isHi
-              ? "यह मंच सांख्यिकी अधिकारियों के कौशल की निरंतर जांच करता है, दक्षता अंतराल की पहचान करता है, परीक्षण कठिनाई को स्वचालित रूप से समायोजित करता है और iGOT कर्मयोगी पाठ्यक्रमों की सटीक सिफारिश करता है।"
-              : "A national-scale psychometric and RAG platform that continuously assesses statistical officers, diagnoses competency gaps with Item Response Theory (IRT), dynamically adjusts assessment difficulty, and generates verifiable training pathways aligned with iGOT Karmayogi."}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3 pt-3">
-            <button onClick={onStartDemo} className="btn-accent text-sm py-2.5 px-5">
-              <span>{isHi ? "लाइव जज डेमो शुरू करें (2-3 मिनट)" : "Start Live Judge Demo (2-3 Min)"}</span>
-              <span>→</span>
-            </button>
-            <button onClick={onExploreArchitecture} className="btn-secondary text-sm py-2.5 px-5">
-              <span>{isHi ? "तकनीकी वास्तुकला देखें" : "Explore Technical Architecture"}</span>
-            </button>
+          {/* Prominent Emblem Display on Hero Right */}
+          <div className="hidden lg:flex flex-col items-center justify-center p-6 rounded-2xl bg-[#0F172A]/80 border border-[#1E293B] shadow-xl text-center space-y-3 shrink-0">
+            <MoSpiLogo size="lg" showText={false} lang={lang} />
+            <div>
+              <div className="text-sm font-bold text-white tracking-wide">
+                {isHi ? "सांख्यिकी समर्थ" : "SĀNKHYIKI SAMARTH"}
+              </div>
+              <div className="text-[11px] text-amber-400 font-mono">
+                SIH26101 • MoSPI
+              </div>
+            </div>
+            <div className="pt-2 border-t border-[#1E293B] text-[10px] text-emerald-400 flex items-center gap-1.5 justify-center">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>{isHi ? "2PL IRT + RAG इंजन सक्रिय" : "2PL IRT + Grounded RAG Live"}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -46,7 +89,7 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
       {/* 2. Compact Problem → Solution → Impact Pipeline */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Problem */}
-        <div className="data-card p-5 space-y-2 border-t-2 border-t-rose-500">
+        <div className="data-card p-5 space-y-2 border-t-2 border-t-rose-500 card-hover-elevate">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-rose-400 uppercase tracking-wider">
               {isHi ? "01. समस्या" : "01. The Problem"}
@@ -64,7 +107,7 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
         </div>
 
         {/* Solution */}
-        <div className="data-card p-5 space-y-2 border-t-2 border-t-amber-500">
+        <div className="data-card p-5 space-y-2 border-t-2 border-t-amber-500 card-hover-elevate">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider">
               {isHi ? "02. समाधान" : "02. The Solution"}
@@ -82,7 +125,7 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
         </div>
 
         {/* Impact */}
-        <div className="data-card p-5 space-y-2 border-t-2 border-t-emerald-500">
+        <div className="data-card p-5 space-y-2 border-t-2 border-t-emerald-500 card-hover-elevate">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
               {isHi ? "03. परिणाम" : "03. Measured Impact"}
@@ -116,11 +159,11 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <button
             onClick={() => onNavigateTab('JUDGE_MODE')}
-            className="p-4 rounded bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group"
+            className="p-4 rounded-lg bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group card-hover-elevate"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-amber-400">01. Judge Mode</span>
-              <span className="text-xs text-gray-500 group-hover:text-amber-400">→</span>
+              <span className="text-xs text-gray-500 group-hover:text-amber-400 transition-transform group-hover:translate-x-1">→</span>
             </div>
             <div className="text-xs font-semibold text-white">2-3 Min Guided Walkthrough</div>
             <p className="text-[11px] text-[#94A3B8]">Assessment → AI Profile → Adaptive Path → Reassessment loop.</p>
@@ -128,11 +171,11 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
 
           <button
             onClick={() => onNavigateTab('AI_INSIGHTS')}
-            className="p-4 rounded bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group"
+            className="p-4 rounded-lg bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group card-hover-elevate"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-indigo-400">02. AI Decision Engine</span>
-              <span className="text-xs text-gray-500 group-hover:text-indigo-400">→</span>
+              <span className="text-xs text-gray-500 group-hover:text-indigo-400 transition-transform group-hover:translate-x-1">→</span>
             </div>
             <div className="text-xs font-semibold text-white">Visible AI Explainability</div>
             <p className="text-[11px] text-[#94A3B8]">Expose raw inputs, mathematical 2PL IRT logic, decisions & rationale.</p>
@@ -140,11 +183,11 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
 
           <button
             onClick={() => onNavigateTab('ARCHITECTURE')}
-            className="p-4 rounded bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group"
+            className="p-4 rounded-lg bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group card-hover-elevate"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-emerald-400">03. Architecture</span>
-              <span className="text-xs text-gray-500 group-hover:text-emerald-400">→</span>
+              <span className="text-xs text-gray-500 group-hover:text-emerald-400 transition-transform group-hover:translate-x-1">→</span>
             </div>
             <div className="text-xs font-semibold text-white">End-to-End System Pipeline</div>
             <p className="text-[11px] text-[#94A3B8]">FastAPI microservices, vector retrieval, and iGOT REST/xAPI adapter.</p>
@@ -152,11 +195,11 @@ export default function LandingHome({ lang, onStartDemo, onExploreArchitecture, 
 
           <button
             onClick={() => onNavigateTab('SECURITY')}
-            className="p-4 rounded bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group"
+            className="p-4 rounded-lg bg-[#0F172A] border border-[#1E293B] hover:border-amber-500 text-left transition-all space-y-2 group card-hover-elevate"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-amber-400">04. Security & Scale</span>
-              <span className="text-xs text-gray-500 group-hover:text-amber-400">→</span>
+              <span className="text-xs text-gray-500 group-hover:text-amber-400 transition-transform group-hover:translate-x-1">→</span>
             </div>
             <div className="text-xs font-semibold text-white">MeitY Cloud & Sovereign AI</div>
             <p className="text-[11px] text-[#94A3B8]">Air-gapped on-premise execution, immutable audit ledger, and RBAC.</p>
